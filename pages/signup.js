@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const SignUp = () => {
+  // obtener productos graphQl
+
   // validacion
   const formik = useFormik({
     initialValues: {
