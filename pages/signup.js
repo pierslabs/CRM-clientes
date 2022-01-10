@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useMutation, gql } from "@apollo/client";
+
+const SIGN_UP = gql`
+  mutation NuevoUsuario($input: UsuarioInput) {
+    nuevoUsuario(input: $input) {
+      id
+      nombre
+      apellido
+      email
+    }
+  }
+`;
 
 const SignUp = () => {
-  // obtener productos graphQl
+  const [mensaje, guardaMensaje] = useState(null);
+
+  // mutation
+  const [nuevoUsuario] = useMutation(SIGN_UP);
+
+  // router
+  const router = useRouter();
 
   // validacion
   const formik = useFormik({
@@ -24,14 +43,47 @@ const SignUp = () => {
         .required("El password es obligatorio")
         .min(6, "El password debe ser de al menos 6 carácteres "),
     }),
-    onSubmit: (valores) => {
-      console.log("enviando");
-      console.log(valores);
+    onSubmit: async (valores) => {
+      const { nombre, apellido, email, password } = valores;
+      try {
+        const { data } = await nuevoUsuario({
+          variables: {
+            input: {
+              nombre,
+              apellido,
+              email,
+              password,
+            },
+          },
+        });
+        console.log(data);
+
+        //usuario se creo correctamente
+        guardaMensaje(`Se ha creado el Usuario: ${data.nuevoUsuario.nombre}`);
+        setTimeout(() => {
+          guardaMensaje(null);
+          router.push("/login");
+        }, 2000);
+      } catch (error) {
+        guardaMensaje(error.message);
+        setTimeout(() => {
+          guardaMensaje(null);
+        }, 2000);
+      }
     },
   });
 
+  const mostrarMensaje = () => {
+    return (
+      <div className="bg-white py-2 px-3 w-full my-3  max-w-sm text-center mx-auto">
+        {mensaje}
+      </div>
+    );
+  };
+
   return (
     <Layout>
+      {mensaje && mostrarMensaje()}
       <h1 className="text-center text-2xl text-white font-light">
         Crear Cuenta
       </h1>
