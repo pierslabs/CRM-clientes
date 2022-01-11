@@ -2,28 +2,63 @@ import React from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
+
+const NUEVO_CLIENTE = gql`
+  mutation NuevoCliente($input: ClientesInput) {
+    nuevoCliente(input: $input) {
+      nombre
+      apellido
+      email
+      empresa
+      telefono
+      vendedor
+    }
+  }
+`;
 
 const Nuevocliente = () => {
+  const router = useRouter();
+  // mutation
+  const [nuevoCliente] = useMutation(NUEVO_CLIENTE);
+
   const formik = useFormik({
     initialValues: {
       nombre: "",
-      apellidos: "",
+      apellido: "",
       email: "",
       empresa: "",
       telefono: "",
     },
     validationSchema: Yup.object({
       nombre: Yup.string().required("El nombre del cliente es obligatorio"),
-      apellidos: Yup.string().required(
-        "El apellido del cliente es obligatorio"
-      ),
+      apellido: Yup.string().required("El apellido del cliente es obligatorio"),
       empresa: Yup.string().required("La empresa del cliente es obligatoria"),
       email: Yup.string()
         .email("Email no valido")
         .required("El email del cliente es obligatorio"),
     }),
-    onSubmit: (valores) => {
+    onSubmit: async (valores) => {
+      const { nombre, apellido, empresa, email, telefono } = valores;
       console.log(valores);
+      try {
+        const { data } = await nuevoCliente({
+          variables: {
+            input: {
+              nombre,
+              apellido,
+              email,
+              empresa,
+              telefono,
+            },
+          },
+        });
+
+        router.push("/");
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -64,25 +99,25 @@ const Nuevocliente = () => {
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="apellidos"
+                htmlFor="apellido"
               >
-                Apellidos
+                apellido
               </label>
               <input
                 type="text"
                 className="shadow apperance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight
                 focus:outline-none focus:shadow-outline"
-                id="apellidos"
-                placeholder="Apellidos Cliente"
+                id="apellido"
+                placeholder="apellido Cliente"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.apellidos}
+                value={formik.values.apellido}
               />
             </div>
-            {formik.touched.apellidos && formik.errors.apellidos ? (
+            {formik.touched.apellido && formik.errors.apellido ? (
               <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                 <p className="font-bold">Error</p>
-                <p>{formik.errors.apellidos}</p>
+                <p>{formik.errors.apellido}</p>
               </div>
             ) : null}
 
