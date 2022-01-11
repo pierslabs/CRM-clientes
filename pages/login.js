@@ -14,7 +14,9 @@ const AUTENTICAR_USUARIO = gql`
 `;
 
 const Login = () => {
+  //router
   const router = useRouter();
+
   //mensajes
   const [mensaje, guardaMensaje] = useState(null);
 
@@ -46,9 +48,11 @@ const Login = () => {
         });
 
         guardaMensaje("Autenticando ...");
+
         //guardar token en localstorage
         const { token } = data.autenticarUsuario;
         localStorage.setItem("token", token);
+
         //redireccionar
         setTimeout(() => {
           guardaMensaje(null);
@@ -56,6 +60,7 @@ const Login = () => {
         }, 2000);
       } catch (error) {
         guardaMensaje(error.message);
+
         setTimeout(() => {
           guardaMensaje(null);
         }, 2000);
