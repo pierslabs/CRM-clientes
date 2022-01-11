@@ -56,7 +56,6 @@ const SignUp = () => {
             },
           },
         });
-        console.log(data);
 
         //usuario se creo correctamente
         guardaMensaje(`Se ha creado el Usuario: ${data.nuevoUsuario.nombre}`);
