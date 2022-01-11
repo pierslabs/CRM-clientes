@@ -47,11 +47,11 @@ const Login = () => {
           },
         });
 
-        guardaMensaje("Autenticando ...");
-
         //guardar token en localstorage
         const { token } = data.autenticarUsuario;
         localStorage.setItem("token", token);
+
+        guardaMensaje("Autenticando ...");
 
         //redireccionar
         setTimeout(() => {
