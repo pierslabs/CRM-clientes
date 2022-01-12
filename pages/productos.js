@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import { gql, useQuery } from "@apollo/client";
 import Producto from "../components/Producto";
+import Link from "next/link";
 
 const OBTENER_PRODUCTOS = gql`
   query ObtenerProductos {
@@ -24,6 +25,11 @@ const Productos = () => {
     <div>
       <Layout>
         <h1 className="text-2xl text-gray-800 font-light">Productos</h1>
+        <Link href="/nuevoproducto">
+          <a className="bg-blue-800 px-5 mt-3 inline-block text-white hover:text-gray-200 mb-3 rounded uppercase py-1 font-bold text-sm">
+            Crear Producto
+          </a>
+        </Link>
         <table className="table-auto shadow-md mt-10 w-full w-lg">
           <thead className="bg-gray-800">
             <tr className="text-white">
