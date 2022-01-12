@@ -18,10 +18,39 @@ const NUEVO_CLIENTE = gql`
   }
 `;
 
+const OBTENER_CLIENTES_USUARIO = gql`
+  query obtenerClientesVendedor {
+    obtenerClientesVendedor {
+      id
+      nombre
+      apellido
+      empresa
+      email
+    }
+  }
+`;
+
 const Nuevocliente = () => {
   const router = useRouter();
   // mutation
-  const [nuevoCliente] = useMutation(NUEVO_CLIENTE);
+  const [nuevoCliente] = useMutation(NUEVO_CLIENTE, {
+    update(cache, { data: { nuevoCliente } }) {
+      // objeto cache a actualizar
+      // copia cache de obtenerClientesVendedor
+      const { obtenerClientesVendedor } = cache.readQuery({
+        query: OBTENER_CLIENTES_USUARIO,
+      });
+
+      // reescribimos el cache ( el cache no se debe modificar)
+
+      cache.writeQuery({
+        query: OBTENER_CLIENTES_USUARIO,
+        data: {
+          obtenerClientesVendedor: [...obtenerClientesVendedor, nuevoCliente],
+        },
+      });
+    },
+  });
 
   const formik = useFormik({
     initialValues: {
