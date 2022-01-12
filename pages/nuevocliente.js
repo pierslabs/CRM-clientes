@@ -40,6 +40,7 @@ const Nuevocliente = () => {
     update(cache, { data: { nuevoCliente } }) {
       // objeto cache a actualizar
       // copia cache de obtenerClientesVendedor
+
       const { obtenerClientesVendedor } = cache.readQuery({
         query: OBTENER_CLIENTES_USUARIO,
       });
