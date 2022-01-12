@@ -2,8 +2,51 @@ import React from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { gql, useMutation } from "@apollo/client";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
+
+const NUEVO_PRODUCTO = gql`
+  mutation nuevoProducto($input: ProductoInput) {
+    nuevoProducto(input: $input) {
+      nombre
+      existencia
+    }
+  }
+`;
+
+const OBTENER_PRODUCTOS = gql`
+  query ObtenerProductos {
+    obtenerProductos {
+      nombre
+      creado
+      existencia
+      precio
+      id
+    }
+  }
+`;
 
 const NuevoProducto = () => {
+  const router = useRouter();
+
+  const [nuevoProducto] = useMutation(NUEVO_PRODUCTO, {
+    update(cache, { data: { nuevoProducto } }) {
+      // obtener objeto cache
+      const { obtenerProductos } = cache.readQuery({
+        query: OBTENER_PRODUCTOS,
+      });
+
+      // rescribir
+      cache.writeQuery({
+        query: OBTENER_PRODUCTOS,
+        data: {
+          obtenerProductos: [...obtenerProductos, nuevoProducto],
+        },
+      });
+    },
+  });
+
   const formik = useFormik({
     initialValues: {
       nombre: "",
@@ -20,7 +63,37 @@ const NuevoProducto = () => {
         .required("El precio del producto es obligatorio")
         .positive("El precio no puede ser un numero negativo"),
     }),
+    onSubmit: async (valores) => {
+      const { nombre, existencia, precio } = valores;
+      console.log(valores);
+      try {
+        const { data } = await nuevoProducto({
+          variables: {
+            input: {
+              nombre,
+              existencia,
+              precio,
+            },
+          },
+        });
+
+        Swal.fire(
+          "Creado",
+          "El producto se ha registrado correctamente",
+          "success"
+        );
+        router.push("productos");
+      } catch (error) {
+        Swal.fire(
+          "Algo ha fallado",
+          "El producto no se ha registrado correctamente",
+          "error"
+        );
+        console.log(error);
+      }
+    },
   });
+
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light">
@@ -29,7 +102,7 @@ const NuevoProducto = () => {
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
           <form
-            // onSubmit={formik.handleSubmit}
+            onSubmit={formik.handleSubmit}
             className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
           >
             <div className="mb-4">
