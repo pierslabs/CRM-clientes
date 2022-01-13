@@ -85,7 +85,7 @@ const NuevoProducto = () => {
         router.push("productos");
       } catch (error) {
         Swal.fire(
-          "Algo ha fallado",
+          "Algo ha ido mal",
           "El producto no se ha registrado correctamente",
           "error"
         );
