@@ -29,10 +29,25 @@ const PedidoState = ({ children }) => {
 
   // MODIFICA LOS PRODUCTOS
 
-  const agregarProductos = (producto) => {
+  const agregarProductos = (productosSeleccionados) => {
+    // solucion al añadir producto y que reescriba la cantidad del anterior producto añadido
+
+    let nuevoState;
+
+    if (state.productos.length > 0) {
+      nuevoState = productosSeleccionados.map((producto) => {
+        const nuevoObjeto = state.productos.find(
+          (productoState) => productoState.id === producto.id
+        );
+
+        return { ...producto, ...nuevoObjeto };
+      });
+    } else {
+      nuevoState = productosSeleccionados;
+    }
     dispatch({
       type: SELECCIONAR_PRODUCTO,
-      payload: producto,
+      payload: nuevoState,
     });
   };
 
