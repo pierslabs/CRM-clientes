@@ -24,7 +24,6 @@ const AsignarProductos = () => {
   const pedidoContext = useContext(PedidoContext);
   const { agregarProductos } = pedidoContext;
 
-  console.log(agregarProductos);
   useEffect(() => {
     // TODO: funcion para pasar pedidoState.js
 
