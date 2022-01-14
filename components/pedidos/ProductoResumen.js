@@ -4,16 +4,17 @@ import PedidoContext from "../../context/pedidos/pedidoContext";
 const ProductoResumen = ({ producto }) => {
   // Context pedidos
   const pedidoContext = useContext(PedidoContext);
-  const { cantidadProductos } = pedidoContext;
+  const { cantidadProductos, actualizarTotal } = pedidoContext;
 
   const [cantidad, setCantidad] = useState(0);
 
   useEffect(() => {
-    actualizarcantidad();
+    actualizarCantidad();
+    actualizarTotal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cantidad]);
 
-  const actualizarcantidad = () => {
+  const actualizarCantidad = () => {
     const nuevoProducto = { ...producto, cantidad: Number(cantidad) };
     cantidadProductos(nuevoProducto);
   };
