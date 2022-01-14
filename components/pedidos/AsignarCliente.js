@@ -20,11 +20,10 @@ const AsignarCliente = () => {
 
   // context de pedidos
   const pedidoContext = useContext(PedidoContext);
+
   const { agregarCliente } = pedidoContext;
 
   const { data, loading, error } = useQuery(OBTENER_CLIENTES_USUARIO);
-
-  const { obtenerClientesVendedor } = data;
 
   useEffect(() => {
     agregarCliente(cliente);
@@ -36,6 +35,8 @@ const AsignarCliente = () => {
 
   // resultados de la consulta
   if (loading) return null;
+
+  const { obtenerClientesVendedor } = data;
 
   return (
     <div>
