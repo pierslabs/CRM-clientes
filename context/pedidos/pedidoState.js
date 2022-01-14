@@ -30,11 +30,14 @@ const PedidoState = ({ children }) => {
   // MODIFICA LOS PRODUCTOS
 
   const agregarProductos = (productosSeleccionados) => {
+    // hay que hacer una copia de los productos antes de que react-select al añadir un nuevo producto
+    // borre el campo de cantidad de los anteriores
     // solucion al añadir producto y que reescriba la cantidad del anterior producto añadido
 
     let nuevoState;
 
     if (state.productos.length > 0) {
+      // coger del segundo array una copia  para asignarla al primero
       nuevoState = productosSeleccionados.map((producto) => {
         const nuevoObjeto = state.productos.find(
           (productoState) => productoState.id === producto.id
