@@ -4,9 +4,14 @@ import {
   CANTIDAD_PRODUCTO,
 } from "../../types";
 
-export default (state, action) => {
+export default function (state, action) {
   switch (action.type) {
+    case SELECCIONAR_CLIENTE:
+      return {
+        ...state,
+        cliente: action.payload,
+      };
     default:
       return state;
   }
-};
+}
