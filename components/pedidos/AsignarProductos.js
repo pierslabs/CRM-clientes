@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import PedidoContext from "../../context/pedidos/pedidoContext";
 import Select from "react-select";
 import { gql, useQuery } from "@apollo/client";
 
@@ -15,7 +16,25 @@ const OBTENER_PRODUCTOS = gql`
 `;
 
 const AsignarProductos = () => {
+  // state
+  const [producto, setProductos] = useState([]);
   const { data, loading, error } = useQuery(OBTENER_PRODUCTOS);
+
+  // context
+  const pedidoContext = useContext(PedidoContext);
+  const { agregarProductos } = pedidoContext;
+
+  console.log(agregarProductos);
+  useEffect(() => {
+    // TODO: funcion para pasar pedidoState.js
+
+    agregarProductos(producto);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [producto]);
+
+  const seleccionarProductos = (producto) => {
+    setProductos(producto);
+  };
 
   if (loading) return null;
   const { obtenerProductos } = data;
@@ -29,7 +48,7 @@ const AsignarProductos = () => {
         className="mt-3"
         options={obtenerProductos}
         isMulti
-        // onChange={(opcion) => seleccionarCliente(opcion)}
+        onChange={(opcion) => seleccionarProductos(opcion)}
         getOptionValue={(opciones) => opciones.id}
         getOptionLabel={(opciones) =>
           `${opciones.nombre} - ${opciones.existencia} Disponibles`
