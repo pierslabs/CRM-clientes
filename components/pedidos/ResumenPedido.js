@@ -20,7 +20,9 @@ const ResumenPedido = () => {
           <ProductoResumen key={producto.id} producto={producto} />
         ))
       ) : (
-        <p>no hay producto</p>
+        <p className=" bg-gray-800 flex  justify-center mt-4 text-white text-2xl  border border-indigo-600  rounded py-3 ">
+          No hay productos
+        </p>
       )}
     </div>
   );

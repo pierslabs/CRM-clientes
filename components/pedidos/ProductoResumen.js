@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import PedidoContext from "../../context/pedidos/pedidoContext";
 
-const productoResumen = ({ producto }) => {
+const ProductoResumen = ({ producto }) => {
+  // Context pedidos
+  const pedidoContext = useContext(PedidoContext);
+  const { cantidadProductos } = pedidoContext;
+
+  const [cantidad, setCantidad] = useState(0);
+
+  useEffect(() => {
+    actualizarcantidad();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cantidad]);
+
+  const actualizarcantidad = () => {
+    const nuevoProducto = { ...producto, cantidad: Number(cantidad) };
+    cantidadProductos(nuevoProducto);
+  };
+
   const { nombre, precio } = producto;
   return (
     <div className="md:flex md:justify-between md:items-center mt-5">
@@ -12,9 +29,11 @@ const productoResumen = ({ producto }) => {
         type="number"
         placeholder="Cantidad"
         className="shadow apperance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:ml-4"
+        onChange={(e) => setCantidad(e.target.value)}
+        value={cantidad}
       />
     </div>
   );
 };
 
-export default productoResumen;
+export default ProductoResumen;

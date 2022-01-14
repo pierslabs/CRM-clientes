@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import AsignarCliente from "../components/pedidos/AsignarCliente";
 import AsignarProductos from "../components/pedidos/AsignarProductos";
 import ResumenPedido from "../components/pedidos/ResumenPedido";
+import Total from "../components/pedidos/Total";
 
 // Context pedido
 import PedidoContext from "../context/pedidos/pedidoContext";
@@ -20,6 +21,13 @@ const NuevoPedido = () => {
           <AsignarCliente />
           <AsignarProductos />
           <ResumenPedido />
+          <Total />
+          <button
+            type="button"
+            className={`bg-blue-800 mt-5 w-full py-3 px-2 text-white font-bold hover:bg-blue-900`}
+          >
+            Crear Pedido
+          </button>
         </div>
       </div>
     </Layout>
