@@ -18,14 +18,20 @@ const OBTENER_PEDIDOS = gql`
       fecha
       estado
       id
-      cliente
+      cliente {
+        nombre
+        apellido
+        id
+        email
+        telefono
+      }
     }
   }
 `;
 
 const Pedidos = () => {
   const { data, loading, error } = useQuery(OBTENER_PEDIDOS);
-  console.log(data);
+
   if (loading) return null;
   const { obtenerPedidosVendedor } = data;
 

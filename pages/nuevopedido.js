@@ -19,17 +19,52 @@ const NUEVO_PEDIDO = gql`
   }
 `;
 
-const NuevoPedido = () => {
+const OBTENER_PEDIDOS = gql`
+  query obtenerPedidosVendedor {
+    obtenerPedidosVendedor {
+      id
+      pedido {
+        id
+        cantidad
+        nombre
+      }
+      cliente {
+        nombre
+        apellido
+        id
+        email
+        telefono
+      }
+      total
+      vendedor
+      estado
+    }
+  }
+`;
+
+const NuevoPedidoVendedor = () => {
   const [mensaje, setMensaje] = useState(null);
 
   const router = useRouter();
 
   // utilizarContext y extraer sus valores
   const pedidoContext = useContext(PedidoContext);
-  // console.log(pedidoContext);
 
   // MUTATION
-  const [nuevoPedido] = useMutation(NUEVO_PEDIDO);
+  const [nuevoPedido] = useMutation(NUEVO_PEDIDO, {
+    update(cache, { data: { nuevoPedido } }) {
+      const { obtenerPedidosVendedor } = cache.readQuery({
+        query: OBTENER_PEDIDOS,
+      });
+
+      cache.writeQuery({
+        query: OBTENER_PEDIDOS,
+        data: {
+          obtenerPedidosVendedor: [...obtenerPedidosVendedor, nuevoPedido],
+        },
+      });
+    },
+  });
 
   const { cliente, productos, total } = pedidoContext;
 
@@ -47,7 +82,7 @@ const NuevoPedido = () => {
     const pedido = productos.map(
       ({ existencia, __typename, creado, ...producto }) => producto
     );
-    console.log(pedido);
+
     try {
       const { data } = await nuevoPedido({
         variables: {
@@ -58,6 +93,7 @@ const NuevoPedido = () => {
           },
         },
       });
+
       router.push("/pedidos");
       Swal.fire("Creado!", "Pedido creado satisfactoriamente", "success");
     } catch (error) {
@@ -101,4 +137,4 @@ const NuevoPedido = () => {
   );
 };
 
-export default NuevoPedido;
+export default NuevoPedidoVendedor;

@@ -11,6 +11,9 @@ const NUEVO_PRODUCTO = gql`
     nuevoProducto(input: $input) {
       nombre
       existencia
+      creado
+      precio
+      id
     }
   }
 `;
