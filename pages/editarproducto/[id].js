@@ -39,8 +39,6 @@ const EditarProducto = () => {
     },
   });
 
-  console.log("id", id);
-
   const [actualizarProducto] = useMutation(ACTUALIZAR_PRODUCTO);
 
   if (loading) {
@@ -65,7 +63,6 @@ const EditarProducto = () => {
   const actualizarInfoProducto = async (valores) => {
     const { nombre, precio, existencia } = valores;
     try {
-      console.log(valores);
       const { data } = await actualizarProducto({
         variables: {
           id,

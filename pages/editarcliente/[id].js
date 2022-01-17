@@ -31,7 +31,6 @@ const EditarCliente = () => {
   const {
     query: { id },
   } = router;
-  console.log(id);
 
   const { data, loading, error } = useQuery(OBTENER_CLIENTE, {
     variables: {

@@ -68,7 +68,7 @@ const NuevoProducto = () => {
     }),
     onSubmit: async (valores) => {
       const { nombre, existencia, precio } = valores;
-      console.log(valores);
+
       try {
         const { data } = await nuevoProducto({
           variables: {

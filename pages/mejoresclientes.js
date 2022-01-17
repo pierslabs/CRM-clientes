@@ -41,11 +41,9 @@ const MejoresClientes = () => {
 
   if (loading) return null;
 
-  console.log(data);
   const { mejoresClientes } = data;
 
   const clienteGrafica = [];
-  console.log(data);
 
   mejoresClientes.map((cliente, index) => {
     clienteGrafica[index] = {

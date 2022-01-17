@@ -60,7 +60,7 @@ const NuevoPedidoVendedor = () => {
       const { obtenerPedidosVendedor } = cache.readQuery({
         query: OBTENER_PEDIDOS,
       });
-      console.log("zzzzzzzz", obtenerPedidosVendedor);
+
       cache.writeQuery({
         query: OBTENER_PEDIDOS,
         data: {

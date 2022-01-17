@@ -76,7 +76,7 @@ const Nuevocliente = () => {
     }),
     onSubmit: async (valores) => {
       const { nombre, apellido, empresa, email, telefono } = valores;
-      console.log(valores);
+
       try {
         const { data } = await nuevoCliente({
           variables: {

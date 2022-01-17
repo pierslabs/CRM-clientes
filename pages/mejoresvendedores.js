@@ -38,7 +38,6 @@ const Mejoresvendedores = () => {
 
   if (loading) return null;
 
-  console.log(data);
   const { mejoresVendedores } = data;
 
   const vendedorGrafica = [];

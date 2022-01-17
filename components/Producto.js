@@ -55,7 +55,6 @@ const Producto = ({ producto }) => {
         try {
           const { data } = await eliminarProducto({ variables: { id } });
           Swal.fire("Eliminado!", data.eliminiarProducto, "success");
-          console.log(data);
         } catch (error) {
           console.log(error);
         }
