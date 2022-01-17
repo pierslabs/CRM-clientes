@@ -32,14 +32,14 @@ const Header = () => {
     router.push("/login");
   };
   return (
-    <div className="flex justify-between mb-6">
-      <h1>
+    <div className="sm:flex sm:justify-between mb-6">
+      <h1 className="mr-2 mb-5 lg:mb-0">
         Hola {nombre} {apellido}
       </h1>
       <button
         onClick={() => cerrarSesion()}
         type="button"
-        className="bg-blue-800 w-full sm:w-auto font-bold uppercase text-xs rounded py-1 px-2 text-white shadow-md"
+        className="bg-blue-800 w-full sm:w-auto font-bold uppercase text-xs rounded py-2 px-2 text-white shadow-md"
       >
         Cerrar Sesion
       </button>

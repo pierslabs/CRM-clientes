@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 
 const MEJORES_CLIENTES = gql`
@@ -56,25 +57,26 @@ const MejoresClientes = () => {
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light">Mejores Vendedores</h1>
-
-      <BarChart
-        width={500}
-        height={300}
-        data={clienteGrafica}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="nombre" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="total" fill="#3182CE" />
-      </BarChart>
+      <ResponsiveContainer width={"99%"} height={550}>
+        <BarChart
+          width={500}
+          height={300}
+          data={clienteGrafica}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="nombre" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="total" fill="#3182CE" />
+        </BarChart>
+      </ResponsiveContainer>
     </Layout>
   );
 };
