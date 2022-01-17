@@ -15,6 +15,10 @@ const NUEVO_PEDIDO = gql`
   mutation nuevoPedido($input: PedidoInput) {
     nuevoPedido(input: $input) {
       id
+      total
+      vendedor
+      fecha
+      estado
     }
   }
 `;
@@ -56,11 +60,11 @@ const NuevoPedidoVendedor = () => {
       const { obtenerPedidosVendedor } = cache.readQuery({
         query: OBTENER_PEDIDOS,
       });
-
+      console.log("zzzzzzzz", obtenerPedidosVendedor);
       cache.writeQuery({
         query: OBTENER_PEDIDOS,
         data: {
-          obtenerPedidosVendedor: [...obtenerPedidosVendedor, nuevoPedido],
+          obtenerPedidosVendedor: [nuevoPedido],
         },
       });
     },
@@ -82,12 +86,12 @@ const NuevoPedidoVendedor = () => {
     const pedido = productos.map(
       ({ existencia, __typename, creado, ...producto }) => producto
     );
-
+    const { id } = cliente;
     try {
       const { data } = await nuevoPedido({
         variables: {
           input: {
-            cliente: cliente.id,
+            cliente: id,
             total,
             pedido,
           },
@@ -98,9 +102,9 @@ const NuevoPedidoVendedor = () => {
       Swal.fire("Creado!", "Pedido creado satisfactoriamente", "success");
     } catch (error) {
       setMensaje(error.message);
-      setTimeout(() => {
-        setMensaje(null);
-      }, 2000);
+      // setTimeout(() => {
+      //   setMensaje(null);
+      // }, 2000);
     }
   };
 
