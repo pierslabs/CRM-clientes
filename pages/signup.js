@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
+import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation, gql } from "@apollo/client";
@@ -197,6 +198,9 @@ const SignUp = () => {
               className="bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:cursor-pointer hover:bg-gray-900"
               value="Crear Cuenta"
             />
+            <Link href="/login">
+              <a className="flex justify-center mt-4 mb-0 underline ">Login</a>
+            </Link>
           </form>
         </div>
       </div>
